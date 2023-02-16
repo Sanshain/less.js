@@ -1,32 +1,48 @@
 type LessCompiler = {
-    render(code: string, options: {
-        javascriptEnabled: boolean;
-        depends: boolean;
-        compress: boolean;
-        lint: boolean;
-        paths: [];
-        color: true;
-        strictImports: boolean;
-        insecure: boolean;
-        rootpath: string | "";
-        rewriteUrls: boolean;
-        math: number | 1;
-        strictUnits: boolean;
-        globalVars: null;
-        modifyVars: null;
-        urlArgs: string;
-        isFileProtocol: boolean;
-        async: boolean;
-        fileAsync: boolean;
-        poll: 1500;
-        env: unknown;
-        useFileCache: true;
-        onReady: true;
-        plugins: [];
-        logLevel: 1;
-        loggers: [{}];
-        mime: string | "text/css";
-    });
+    render(
+        code: string,
+        options: Partial<{
+            javascriptEnabled: boolean;
+            depends: boolean;
+            compress: boolean;
+            lint: boolean;
+            paths: [];
+            color: true;
+            strictImports: boolean;
+            insecure: boolean;
+            rootpath: string | "";
+            rewriteUrls: boolean;
+            math: number | 1;
+            strictUnits: boolean;
+            globalVars: null;
+            modifyVars: null;
+            urlArgs: string;
+            isFileProtocol: boolean;
+            async: boolean;
+            fileAsync: boolean;
+            poll: 1500;
+            env: unknown;
+            useFileCache: true;
+            onReady: true;
+            plugins: [];
+            logLevel: 1;
+            loggers: [{}];
+            mime: string | "text/css";
+        }>,
+        callback: (
+            err?: {
+                message: string,
+                line: number,
+                column: number,
+                type: "Parse",
+                filename: string
+            },
+            result?: {
+                css: string,
+                import: unknown[]
+            }
+        ) => void
+    );
 };
 
 /**
