@@ -36,12 +36,12 @@ async function buildBrowser() {
             //     format: 'iife'
             // },
             {
-                file: 'less.js',
+                file: 'less.es.js',
                 format: 'iife',
                 name: 'less'
             },
             {
-                file: 'less.min.js',
+                file: 'less.es.min.js',
                 format: 'iife',
                 name: 'less'
             }
@@ -78,7 +78,7 @@ async function buildBrowser() {
     }); 
 
     if (!args.out || args.out.indexOf('less.js') > -1) {
-        const file = args.out || `${outDir}/less.js`;
+        const file = args.out || `${outDir}/less.es.js`;
         console.log(`Writing ${file}...`);
         await bundle.write({
             file: path.join(rootPath, file),
@@ -89,7 +89,7 @@ async function buildBrowser() {
     }
 
     if (!args.out || args.out.indexOf('less.min.js') > -1) {
-        const file = args.out || `${outDir}/less.min.js`;
+        const file = args.out || `${outDir}/less.es.min.js`;
         console.log(`Writing ${file}...`);
         await bundle.write({
             file: path.join(rootPath, file),

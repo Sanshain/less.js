@@ -37,6 +37,8 @@
 	"scripts": {
 		"test": "grunt test",
 		"grunt": "grunt",
+		"gather": "node ./build/rollup.iife.js",
+		"es": "node ./build/rollup.es.js",
 		"build": "npm-run-all clean compile",
 		"clean": "shx rm -rf ./lib tsconfig.tsbuildinfo",
 		"compile": "tsc -p tsconfig.json",
