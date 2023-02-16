@@ -11,3 +11,12 @@ Add Less.js to your project:
 ```sh
 npm install less
 ```
+
+
+Build for browser: 
+
+```
+node ./build/rollup.js
+```
+
+and look up result inside `./tmp/` directory

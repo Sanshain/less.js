@@ -2,17 +2,14 @@
  * Less - Leaner CSS v4.1.3
  * http://lesscss.org
  * 
- * Copyright (c) 2009-2022, Alexis Sellier <self@cloudhead.net>
+ * Copyright (c) 2009-2023, Alexis Sellier <self@cloudhead.net>
  * Licensed under the Apache-2.0 License.
  *
  * @license Apache-2.0
  */
 
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.less = factory());
-}(this, (function () { 'use strict';
+var less = (function () {
+    'use strict';
 
     // Export a new default each time
     function defaultOptions () {
@@ -255,7 +252,7 @@
             if (!filename) {
                 logger$1.warn('getFileManager called with no filename.. Please report this issue. continuing.');
             }
-            if (currentDirectory == null) {
+            if (currentDirectory === undefined) {
                 logger$1.warn('getFileManager called with null directory.. Please report this issue. continuing.');
             }
             var fileManagers = this.fileManagers;
@@ -574,19 +571,19 @@
         };
         // Returns true if this node represents root of ast imported by reference
         Node.prototype.blocksVisibility = function () {
-            if (this.visibilityBlocks == null) {
+            if (this.visibilityBlocks === undefined) {
                 this.visibilityBlocks = 0;
             }
             return this.visibilityBlocks !== 0;
         };
         Node.prototype.addVisibilityBlock = function () {
-            if (this.visibilityBlocks == null) {
+            if (this.visibilityBlocks === undefined) {
                 this.visibilityBlocks = 0;
             }
             this.visibilityBlocks = this.visibilityBlocks + 1;
         };
         Node.prototype.removeVisibilityBlock = function () {
-            if (this.visibilityBlocks == null) {
+            if (this.visibilityBlocks === undefined) {
                 this.visibilityBlocks = 0;
             }
             this.visibilityBlocks = this.visibilityBlocks - 1;
@@ -1166,6 +1163,9 @@
         }
         return result;
     }
+    function isNullOrUndefined(val) {
+        return val === null || val === undefined;
+    }
 
     var utils = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -1175,7 +1175,8 @@
         defaults: defaults,
         copyOptions: copyOptions,
         merge: merge,
-        flattenArray: flattenArray
+        flattenArray: flattenArray,
+        isNullOrUndefined: isNullOrUndefined
     });
 
     var anonymousFunc = /(<anonymous>|Function):(\d+):(\d+)/;
@@ -1344,7 +1345,7 @@
         createDerived: function (elements, extendList, evaldCondition) {
             elements = this.getElements(elements);
             var newSelector = new Selector(elements, extendList || this.extendList, null, this.getIndex(), this.fileInfo(), this.visibilityInfo());
-            newSelector.evaldCondition = (evaldCondition != null) ? evaldCondition : this.evaldCondition;
+            newSelector.evaldCondition = (!isNullOrUndefined(evaldCondition)) ? evaldCondition : this.evaldCondition;
             newSelector.mediaEmpty = this.mediaEmpty;
             return newSelector;
         },
@@ -1839,7 +1840,7 @@
             if (e) {
                 throw e;
             }
-            if (v != null) {
+            if (!isNullOrUndefined(v)) {
                 return v ? Keyword.True : Keyword.False;
             }
         },
@@ -2487,7 +2488,7 @@
                     // non parent reference elements just get added
                     if (el.value !== '&') {
                         var nestedSelector = findNestedSelector(el);
-                        if (nestedSelector != null) {
+                        if (nestedSelector !== null) {
                             // merge the current list of non parent selector elements
                             // on to the current list of selectors to add
                             mergeElementsOnToSelectors(currentElements, newSelectors);
@@ -3415,7 +3416,7 @@
     });
 
     var Quoted = function (str, content, escaped, index, currentFileInfo) {
-        this.escaped = (escaped == null) ? true : escaped;
+        this.escaped = (escaped === undefined) ? true : escaped;
         this.value = content || '';
         this.quote = str.charAt(0);
         this._index = index;
@@ -5744,9 +5745,9 @@
             return (rulesetNode && rulesetNode.paths)
                 ? (rulesetNode.paths.length > 0) : false;
         };
-        CSSVisitorUtils.prototype.resolveVisibility = function (node, originalRules) {
+        CSSVisitorUtils.prototype.resolveVisibility = function (node) {
             if (!node.blocksVisibility()) {
-                if (this.isEmpty(node) && !this.containsSilentNonBlockedChild(originalRules)) {
+                if (this.isEmpty(node)) {
                     return;
                 }
                 return node;
@@ -7053,7 +7054,7 @@
                             parserInput.$re(/^(?:(?:\\[\(\)'"])|[^\(\)'"])+/) || '';
                         parserInput.autoCommentAbsorb = true;
                         expectChar(')');
-                        return new (tree.URL)((value.value != null ||
+                        return new (tree.URL)((value.value !== undefined ||
                             value instanceof tree.Variable ||
                             value instanceof tree.Property) ?
                             value : new (tree.Anonymous)(value, index), index, fileInfo);
@@ -7940,7 +7941,7 @@
                             merge = !isVariable && name.length > 1 && name.pop().value;
                             // Custom property values get permissive parsing
                             if (name[0].value && name[0].value.slice(0, 2) === '--') {
-                                value = this.permissiveValue();
+                                value = this.permissiveValue(/[;}]/);
                             }
                             // Try to store values as anonymous
                             // If we need the value later we'll re-parse it in ruleset.parseValue
@@ -9488,7 +9489,7 @@
         if (!(n instanceof Dimension)) {
             throw { type: 'Argument', message: 'argument must be a number' };
         }
-        if (unit == null) {
+        if (unit === null) {
             unit = n.unit;
         }
         else {
@@ -9521,6 +9522,7 @@
     };
 
     var minMax = function (isMin, args) {
+        var _this = this;
         args = Array.prototype.slice.call(args);
         switch (args.length) {
             case 0: throw { type: 'Argument', message: 'one or more arguments required' };
@@ -9567,7 +9569,7 @@
         if (order.length == 1) {
             return order[0];
         }
-        args = order.map(function (a) { return a.toCSS(this.context); }).join(this.context.compress ? ',' : ', ');
+        args = order.map(function (a) { return a.toCSS(_this.context); }).join(this.context.compress ? ',' : ', ');
         return new Anonymous((isMin ? 'min' : 'max') + "(" + args + ")");
     };
     var number = {
@@ -9577,7 +9579,7 @@
                 args[_i] = arguments[_i];
             }
             try {
-                return minMax(true, args);
+                return minMax.call(this, true, args);
             }
             catch (e) { }
         },
@@ -9587,7 +9589,7 @@
                 args[_i] = arguments[_i];
             }
             try {
-                return minMax(false, args);
+                return minMax.call(this, false, args);
             }
             catch (e) { }
         },
@@ -10756,7 +10758,7 @@
             // sheet may be set to the stylesheet for the initial load or a collection of properties including
             // some context variables for imports
             var hrefParts = this.extractUrlParts(filename, window.location.href);
-            var href = hrefParts.url;
+            var href = filename.startsWith('blob:') ? filename : hrefParts.url;
             var self = this;
             return new Promise(function (resolve, reject) {
                 if (options.useFileCache && fileCache[href]) {
@@ -11357,4 +11359,4 @@
 
     return less;
 
-})));
+}());

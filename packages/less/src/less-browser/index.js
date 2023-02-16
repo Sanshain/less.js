@@ -14,7 +14,7 @@ import ImageSize from './image-size';
 
 export default (window, options) => {
     const document = window.document;
-    const less = lessRoot();
+    const less = lessRoot();    
 
     less.options = options;
     const environment = less.environment;
@@ -125,7 +125,6 @@ export default (window, options) => {
 
             // TODO add tests around how this behaves when reloading
             errors.remove(path);
-
             instanceOptions.rootFileInfo = newFileInfo;
             less.render(data, instanceOptions, (e, result) => {
                 if (e) {

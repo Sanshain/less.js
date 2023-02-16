@@ -1,6 +1,20 @@
+//@ts-check
+
 const rollup = require('rollup');
+/**
+ * @type {Function}
+ */
+//@ts-ignore
 const typescript = require('rollup-plugin-typescript2');
+/**
+ * @type {Function}
+ */
+//@ts-ignore
 const commonjs = require('@rollup/plugin-commonjs');
+/**
+ * @type {Function}
+ */
+//@ts-ignore
 const json = require('@rollup/plugin-json');
 const resolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const terser = require('rollup-plugin-terser').terser;
@@ -11,23 +25,25 @@ const rootPath = path.join(__dirname, '..');
 
 const args = require('minimist')(process.argv.slice(2));
 
-let outDir = args.dist ? './dist' : './tmp';
+let outDir = './dist';
 
 async function buildBrowser() {
     let bundle = await rollup.rollup({
         input: './src/less-browser/bootstrap.js',
         output: [
-            {
-                file: 'less-browser.js',
-                format: 'iife'
-            },
+            // {
+            //     file: 'less-browser.js',
+            //     format: 'iife'
+            // },
             {
                 file: 'less.js',
-                format: 'umd'
+                format: 'iife',
+                name: 'less'
             },
             {
                 file: 'less.min.js',
-                format: 'umd'
+                format: 'iife',
+                name: 'less'
             }
         ],
         plugins: [
@@ -66,7 +82,7 @@ async function buildBrowser() {
         console.log(`Writing ${file}...`);
         await bundle.write({
             file: path.join(rootPath, file),
-            format: 'umd',
+            format: 'iife',
             name: 'less',
             banner
         }); 
@@ -77,7 +93,7 @@ async function buildBrowser() {
         console.log(`Writing ${file}...`);
         await bundle.write({
             file: path.join(rootPath, file),
-            format: 'umd',
+            format: 'iife',
             name: 'less',
             sourcemap: true,
             banner

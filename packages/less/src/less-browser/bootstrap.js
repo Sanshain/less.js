@@ -27,6 +27,7 @@ if (window.LESS_PLUGINS) {
 }
 
 const less = root(window, options);
+
 export default less;
 
 window.less = less;
