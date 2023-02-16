@@ -6,7 +6,7 @@
   "homepage": "http://lesscss.org",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postinstall": "npm run bootstrap",
+    "postinstall_$": "npm run bootstrap",
     "changelog": "github-changes -o less -r less.js -a --only-pulls --use-commit-body -m \"(YYYY-MM-DD)\"",
     "test": "cd packages/less && npm test"
   },
