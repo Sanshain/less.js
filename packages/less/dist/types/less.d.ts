@@ -44,4 +44,4 @@ type LessCompiler = {
  */
 declare var less: LessCompiler;
 
-export default LessCompiler;
+export default less;
