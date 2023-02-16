@@ -43,3 +43,5 @@ type LessCompiler = {
  * @param {{object}}  [object={javascriptEnabled: false, depends: false, compress:false, lint:false, paths:[], color:true, strictImports:false, insecure:false, rootpath:"", rewriteUrls:false, math:1, strictUnits:false, globalVars:null, modifyVars:null, urlArgs:"", isFileProtocol:false, async:false, fileAsync:false, poll:1500, env:{}, useFileCache:true, onReady:true, plugins:[], logLevel:1, loggers:[{}], mime:text/css} ] - options
  */
 declare var less: LessCompiler;
+
+export default LessCompiler;
